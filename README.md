@@ -25,7 +25,7 @@ https://www.npmjs.com/get-npm
 
 ```
 git clone https://github.com/natalia-romero/proyecto-ids.git
-cd restofind
+cd proyecto-ids
 ```
 Crear .env file (luego se debe editar con sus propias credenciales)
 ```
