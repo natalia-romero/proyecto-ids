@@ -39,7 +39,7 @@ php artisan key:generate
 Instalar paquetes necesarios
 ```
 composer install
-nmp install
+npm install
 npm run dev
 ```
 
