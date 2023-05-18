@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Seeders;
-use App\Models\SLA;
+use App\Models\State;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +14,7 @@ class StateSeeder extends Seeder
      */
     public function run()
     {
-        SLA::upsert([
+        State::upsert([
             [
                 'id' => 1,
                 'name' => 'Abierto'
