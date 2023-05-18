@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\DB;
+use Flasher\Toastr\Prime\ToastrFactory;
 use App\Models\Ticket;
+use App\Models\User;
 
 class TicketController extends Controller
 {
@@ -15,7 +18,12 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::all();
+        if(!auth()->user()->is_coordinator){
+           $tickets = $tickets->where('user_id',auth()->user()->id);
+        }
+        //print_r($tickets);
+        return view('tickets.index', ['tickets' => $tickets]);
     }
 
     /**
@@ -25,7 +33,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        return view('tickets.create');
     }
 
     /**
@@ -58,7 +66,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        return view('tickets.edit', ['ticket' => $ticket]);
     }
 
     /**
