@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -46,8 +47,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
-    public function isCoordinator()
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['is_coordinator'];
+
+    public function isCoordinator(): Attribute
     {
-        return $this->id == Role::COORDINATOR_ID;
+        return new Attribute(
+            get: fn () => $this->role_id == Role::COORDINATOR_ID,
+        );
     }
 }
