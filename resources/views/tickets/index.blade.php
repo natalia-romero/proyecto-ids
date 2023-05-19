@@ -23,7 +23,6 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Razón</th>
                                 <th>Categoría</th>
                                 <th>Funcionario</th>
                                 <th>Responsable</th>
@@ -36,7 +35,6 @@
                                 @foreach ($tickets as $ticket)
                                     <tr>
                                         <td> {{ $ticket->id }} </td>
-                                        <td> {{ $ticket->reason }} </td>
                                         <td> {{ $ticket->category->name }} </td>
                                         <td> {{ $ticket->functionary->name }} </td>
                                         <td> {{ $ticket->user->name }} </td>
@@ -46,8 +44,6 @@
                                                 <i class="fas fa-edit"></i>
                                                 Editar
                                             </a>
-
-
                                             <form action="{{ route('tickets.close', $ticket) }}" method="POST" style="display: inline;" class="close-ticket">
                                                 @csrf
                                                 @method('POST')

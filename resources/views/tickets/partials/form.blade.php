@@ -1,6 +1,32 @@
 @csrf
 <div class="card-body">
     <div class="row">
+        @if (Auth::user()->is_coordinator)
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1" class="form-label">Responsable</label>
+                    <select class="form-control user  @error('user') is-invalid @enderror" style="width: 100%;"
+                        name="user">
+                        <option></option>
+                        @if (!empty($users) && $users->count())
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}" @selected(isset($ticket) ? $ticket->user_id == $user->id : 0)>
+                                    {{ $user->name }}
+                                </option>
+                            @endforeach
+                        @else
+                            <option disabled>No hay usuarios para asignar.</option>
+                        @endif
+                    </select>
+                    @error('user')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <!-- /.form-group -->
+            </div>
+        @endif
         <div class="col-6">
             <div class="form-group">
                 <div class="mb-3">
@@ -41,23 +67,6 @@
             </div>
             <!-- /.form-group -->
         </div>
-    </div>
-    <div class="row">
-        <div class="col-6">
-            <div class="form-group">
-                <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
-                    <textarea class="form-control  @error('description') is-invalid @enderror" id="exampleFormControlTextarea1"
-                        rows="2" name="description" placeholder="Ingrese descripción">{{ old('description') ?? (isset($ticket) ? $ticket->description : '') }}</textarea>
-                    @error('description')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-            <!-- /.form-group -->
-        </div>
         <div class="col-6">
             <div class="form-group">
                 <label for="exampleFormControlInput1" class="form-label">Categoría</label>
@@ -83,33 +92,23 @@
             <!-- /.form-group -->
         </div>
     </div>
-    @if (Auth::user()->is_coordinator)
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="exampleFormControlInput1" class="form-label">Responsable</label>
-                    <select class="form-control user  @error('user') is-invalid @enderror" style="width: 100%;" name="user">
-                        <option></option>
-                        @if (!empty($users) && $users->count())
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}" @selected(isset($ticket) ? $ticket->user_id == $user->id : 0)>
-                                    {{ $user->name }}
-                                </option>
-                            @endforeach
-                        @else
-                            <option disabled>No hay usuarios para asignar.</option>
-                        @endif
-                    </select>
-                    @error('user')
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label">Descripción</label>
+                    <textarea class="form-control  @error('description') is-invalid @enderror" id="exampleFormControlTextarea1"
+                        rows="2" name="description" placeholder="Ingrese descripción">{{ old('description') ?? (isset($ticket) ? $ticket->description : '') }}</textarea>
+                    @error('description')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                <!-- /.form-group -->
             </div>
+            <!-- /.form-group -->
         </div>
-    @endif
+    </div>
     <!-- /.card-body -->
 </div>
 <div class="card-footer">

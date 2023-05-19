@@ -59,14 +59,12 @@ class TicketController extends Controller
     {
         $request->validate([
             'description' => ['required'],
-            'reason' => ['required'],
             'category' => ['required'],
             'functionary' => ['required'],
             'user' => Rule::requiredIf(Auth::user()->is_coordinator),
         ]);
         $ticket = Ticket::create([
             'description' => $request->description,
-            'reason' => $request->reason,
             'category_id' => $request->category,
             'functionary_id' => $request->functionary,
             'sla_id' => SLA::LOW_ID,
@@ -113,14 +111,12 @@ class TicketController extends Controller
     {
         $request->validate([
             'description' => ['required'],
-            'reason' => ['required'],
             'category' => ['required'],
             'functionary' => ['required'],
             'user' => Rule::requiredIf(Auth::user()->is_coordinator),
         ]);
         $ticket->update([
             'description' => $request->description,
-            'reason' => $request->reason,
             'category_id' => $request->category,
             'functionary_id' => $request->functionary,
             'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
