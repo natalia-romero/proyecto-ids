@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation;
+use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Flasher\Toastr\Prime\ToastrFactory;
+use App\Models\Role;
 use App\Models\Ticket;
+use App\Models\Category;
+use App\Models\SLA;
+use App\Models\Functionary;
+use App\Models\State;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -19,8 +29,8 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::all();
-        if(!auth()->user()->is_coordinator){
-           $tickets = $tickets->where('user_id',auth()->user()->id);
+        if (!auth()->user()->is_coordinator) {
+            $tickets = $tickets->where('user_id', auth()->user()->id);
         }
         //print_r($tickets);
         return view('tickets.index', ['tickets' => $tickets]);
@@ -33,7 +43,10 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('tickets.create');
+        $users = User::all();
+        $categories = Category::all();
+        $functionaries = Functionary::all();
+        return view('tickets.create', ['functionaries' => $functionaries, 'categories' => $categories, 'users' => $users]);
     }
 
     /**
@@ -42,9 +55,26 @@ class TicketController extends Controller
      * @param  \App\Http\Requests\StoreTicketRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTicketRequest $request)
+    public function store(StoreTicketRequest $request, ToastrFactory $flasher)
     {
-        //
+        $request->validate([
+            'description' => ['required'],
+            'reason' => ['required'],
+            'category' => ['required'],
+            'functionary' => ['required'],
+            'user' => Rule::requiredIf(Auth::user()->is_coordinator),
+        ]);
+        $ticket = Ticket::create([
+            'description' => $request->description,
+            'reason' => $request->reason,
+            'category_id' => $request->category,
+            'functionary_id' => $request->functionary,
+            'sla_id' => SLA::LOW_ID,
+            'state_id' => State::OPEN_ID,
+            'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
+        ]);
+        $flasher->addSuccess("Ticket creado correctamente!", "Enhorabuena");
+        return redirect()->route('tickets.index');
     }
 
     /**
@@ -66,7 +96,10 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        return view('tickets.edit', ['ticket' => $ticket]);
+        $users = User::all();
+        $categories = Category::all();
+        $functionaries = Functionary::all();
+        return view('tickets.edit', ['ticket' => $ticket, 'categories' => $categories, 'functionaries' => $functionaries, 'users' => $users]);
     }
 
     /**
@@ -76,11 +109,34 @@ class TicketController extends Controller
      * @param  \App\Models\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTicketRequest $request, Ticket $ticket)
+    public function update(UpdateTicketRequest $request, Ticket $ticket, ToastrFactory $flasher)
     {
-        //
+        $request->validate([
+            'description' => ['required'],
+            'reason' => ['required'],
+            'category' => ['required'],
+            'functionary' => ['required'],
+            'user' => Rule::requiredIf(Auth::user()->is_coordinator),
+        ]);
+        $ticket->update([
+            'description' => $request->description,
+            'reason' => $request->reason,
+            'category_id' => $request->category,
+            'functionary_id' => $request->functionary,
+            'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
+        ]);
+        $flasher->addSuccess("Ticket editado correctamente!", "Enhorabuena");
+        return redirect()->route('tickets.index');
     }
 
+    public function close(Ticket $ticket, ToastrFactory $flasher)
+    {
+        $ticket->update([
+            'state_id' => State::CLOSE_ID
+        ]);
+        $flasher->addSuccess("Ticket cerrado correctamente!", "Enhorabuena");
+        return redirect()->route('tickets.index');
+    }
     /**
      * Remove the specified resource from storage.
      *
