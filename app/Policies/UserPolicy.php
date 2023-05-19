@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_coordinator;
     }
 
     /**
@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        //
+        return $user->is_coordinator;
     }
 
     /**
