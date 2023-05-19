@@ -2,7 +2,7 @@
 @section('title', 'Listado de Tickets')
 @section('css')
 
-    @include('tickets.partials.options')
+@include('tickets.partials.options')
 
 @stop
 
@@ -23,6 +23,8 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Razón</th>
+                                <th>Categoría</th>
                                 <th>Funcionario</th>
                                 <th>Responsable</th>
                                 <th>Estado</th>
@@ -33,12 +35,14 @@
                             @if (!empty($tickets) && $tickets->count())
                                 @foreach ($tickets as $ticket)
                                     <tr>
-                                        <td> Prueba </td>
-                                        <td> Prueba </td>
-                                        <td> Prueba </td>
-                                        <td> Prueba </td>
+                                        <td> {{ $ticket->id }} </td>
+                                        <td> {{ $ticket->reason }} </td>
+                                        <td> {{ $ticket->category->name }} </td>
+                                        <td> {{ $ticket->functionary->name }} </td>
+                                        <td> {{ $ticket->user->name }} </td>
+                                        <td> {{ $ticket->state->name }} </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary">
+                                            <a class="btn btn-sm btn-success">
                                                 <i class="fas fa-eye"></i>
                                                 Ver
                                             </a>
@@ -46,6 +50,16 @@
                                                 <i class="fas fa-edit"></i>
                                                 Editar
                                             </a>
+
+
+                                            <form action="{{ route('tickets.close', $ticket) }}" method="POST" style="display: inline;" class="close-ticket">
+                                                @csrf
+                                                @method('POST')
+                                                <button class="btn btn-sm btn-warning" type="submit">
+                                                    <i class="fas fa-check-double"></i>
+                                                    Cerrar ticket
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -69,4 +83,25 @@
             </div>
         @endif
     </div>
+@stop
+@section('js')
+    @parent
+    <script>
+        $('.close-ticket').submit(function(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Al cerrar el ticket estás confirmando que el proceso se ha terminado.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cerrar ticket',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                console.log(result.isConfirmed);
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            })
+        });
+    </script>
 @stop
