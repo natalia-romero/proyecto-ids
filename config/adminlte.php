@@ -327,11 +327,13 @@ return [
         ['header' => 'users'],
         [
             'text' => 'view_user',
+            'can' => 'viewAny-user',
             'route'  => 'users.index',
             'icon' => 'fas fa-fw fa-list',
         ],
         [
             'text' => 'add_user',
+            'can' => 'create-user',
             'route'  => 'users.create',
             'icon' => 'fas fa-fw fa-users',
         ],
@@ -345,12 +347,6 @@ return [
             'text' => 'add_ticket',
             'route'  => 'tickets.create',
             'icon' => 'fas fa-fw fa-clipboard-check',
-        ],
-        ['header' => 'statistics'],
-        [
-            'text' => 'view_stats',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-list',
         ],
         // [
         //     'text' => 'change_password',
