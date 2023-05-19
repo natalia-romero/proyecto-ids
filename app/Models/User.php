@@ -35,9 +35,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
     public function tickets()
     {

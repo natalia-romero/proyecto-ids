@@ -21,12 +21,12 @@ class Comment extends Model
         'ticket_id',
     ];
 
-    public function users()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function tickets()
+    public function ticket()
     {
         return $this->belongsTo(Ticket::class, 'ticket_id');
     }

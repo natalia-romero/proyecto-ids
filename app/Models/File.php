@@ -21,7 +21,7 @@ class File extends Model
         'ticket_id',
     ];
 
-    public function tickets()
+    public function ticket()
     {
         return $this->belongsTo(Ticket::class, 'ticket_id');
     }
