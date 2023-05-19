@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
+use App\Models\Ticket;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect()->route('tickets.index', Auth::user());
     });
+
+    Route::post('/tickets/close/{ticket}', [TicketController::class, 'close'])->name('tickets.close');
     Route::resource('tickets', TicketController::class);
 
     Route::resource('users', UserController::class);
