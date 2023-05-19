@@ -11,7 +11,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-xl-9">
+        <div class="col-12 col-xl">
             <div class="card card-closeup-dark">
                 <div class="card-header">
                     <h3 class="card-title">Crear Ticket</h3>
@@ -23,10 +23,10 @@
                 </form>
             </div>
         </div>
-        @hasSection('options')
+        {{-- @hasSection('options')
             <div class="col-12 order-first col-xl-3 order-xl-last">
                 @yield('options')
             </div>
-        @endif
+        @endif --}}
     </div>
 @stop
