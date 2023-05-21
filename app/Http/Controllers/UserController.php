@@ -53,8 +53,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed', Rules\Password::defaults()],
-            'rut' => ['required', new IsRut],
-            'phone' => ['required','min:8','max:12'],
+            'rut' => ['required', new IsRut, 'unique:users'],
+            'phone' => ['required','min:8','max:11','numeric'],
             'role' => ['required', 'exists:App\Models\Role,id'],
         ]);
         $user = User::create([
@@ -105,7 +105,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'rut' => ['required', new IsRut, Rule::unique('users')->ignore($user->id)],
-            'phone' => ['required','min:8','max:12'],
+            'phone' => ['required','min:8','max:11','numeric'],
             'role' => ['required', 'exists:App\Models\Role,id'],
         ]);
         if ($request->password != null) {
