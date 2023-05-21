@@ -55,7 +55,7 @@
             <div class="form-group">
                 <label for="exampleInput">Rut</label>
                 <input type="text" class="form-control   @error('rut') is-invalid @enderror" id="exampleInput"
-                    placeholder="Ingrese rut" value="{{ old('rut') ?? (isset($user) ? $user->rut : '') }}"
+                    placeholder="Ingrese rut (12345678-9)" value="{{ old('rut') ?? (isset($user) ? $user->rut : '') }}"
                     name="rut">
                 @error('rut')
                     <span class="invalid-feedback" role="alert">

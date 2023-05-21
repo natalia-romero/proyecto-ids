@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules;
+use App\Rules\IsRut;
 use App\Models\Role;
 use App\Models\User;
 use Flasher\Toastr\Prime\ToastrFactory;
@@ -50,8 +50,8 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed', Rules\Password::defaults()],
-            'rut' => ['required'],
-            'phone' => ['required'],
+            'rut' => ['required', new IsRut],
+            'phone' => ['required','min:8','max:12'],
             'role' => ['required', 'exists:App\Models\Role,id'],
         ]);
         $user = User::create([
