@@ -32,10 +32,10 @@ class UserSeeder extends Seeder
                 'name' => 'John Doe',
                 'rut' => '22333444-1',
                 'phone' => '+56912345678',
-                'email' => 'soporte1@correo.com',
+                'email' => 'soporte@correo.com',
                 'password' => Hash::make('12345678'),
                 'role_id' => Role::SUPPORT_ID
             ],
-        ],['id'],['name'],['rut'],['phone'],['email'],['password'],['role_id']);
+        ],['id']);
     }
 }
