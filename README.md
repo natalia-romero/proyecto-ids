@@ -59,4 +59,4 @@ Ejecuta el servidor con
 ```
 php artisan serve
 ```
-Se podrá acceder desde http://localhost:8000 con el Usuario admin@admin.com - Admin
+Se podrá acceder desde http://localhost:8000 con el Usuario coodinador@correo.com - 12345678

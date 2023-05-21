@@ -20,20 +20,20 @@ class UserSeeder extends Seeder
         User::upsert([
             [
                 'id' => 1,
-                'name' => 'Admin',
+                'name' => 'Coordinador',
                 'rut' => '12345678-1',
                 'phone' => '+56912345678',
-                'email' => 'admin@admin.com',
-                'password' => Hash::make('Admin'),
+                'email' => 'coordinador@correo.com',
+                'password' => Hash::make('12345678'),
                 'role_id' => Role::COORDINATOR_ID
             ],
             [
                 'id' => 2,
                 'name' => 'John Doe',
-                'rut' => '12345678-1',
+                'rut' => '22333444-1',
                 'phone' => '+56912345678',
-                'email' => 'soporte@mail.com',
-                'password' => Hash::make('123'),
+                'email' => 'soporte1@correo.com',
+                'password' => Hash::make('12345678'),
                 'role_id' => Role::SUPPORT_ID
             ],
         ],['id'],['name'],['rut'],['phone'],['email'],['password'],['role_id']);
