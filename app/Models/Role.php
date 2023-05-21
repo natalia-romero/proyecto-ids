@@ -11,8 +11,8 @@ class Role extends Model
     public const COORDINATOR_ID = 1;
     public const SUPPORT_ID = 2;
     
-    public function tickets()
+    public function users()
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(User::class);
     }
 }
