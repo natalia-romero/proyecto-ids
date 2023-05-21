@@ -106,6 +106,7 @@
 </div>
 <div class="card-footer">
     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+    <a class="btn btn-secondary" href="{{route('users.index')}}"><i class="fas fa-ban"></i> Cancelar</a>
 </div>
 @section('js')
     @parent
