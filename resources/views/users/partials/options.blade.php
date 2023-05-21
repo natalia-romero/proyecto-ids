@@ -6,7 +6,7 @@
             'route_url' => route('users.disabled'),
             'icon' => 'fas fa-list',
             'btn_class' => 'btn-primary',
-            'text' => 'Listado de usuarios eliminados',
+            'text' => 'Listado de usuarios deshabilitados',
         ],
         [
             'can' => Auth::user()->can('viewAny', \App\Models\User::class),
