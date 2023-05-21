@@ -324,6 +324,17 @@ return [
             'route'  => 'users.show',
             'icon' => 'fas fa-fw fa-user',
         ],*/
+        ['header' => 'tickets'],
+        [
+            'text' => 'view_ticket',
+            'route'  => 'tickets.index',
+            'icon' => 'fas fa-fw fa-list',
+        ],
+        [
+            'text' => 'add_ticket',
+            'route'  => 'tickets.create',
+            'icon' => 'fas fa-fw fa-clipboard-check',
+        ],
         ['header' => 'users', 'can' => 'viewAny-user'],
         [
             'text' => 'view_user',
@@ -336,17 +347,6 @@ return [
             'can' => 'create-user',
             'route'  => 'users.create',
             'icon' => 'fas fa-fw fa-users',
-        ],
-        ['header' => 'tickets'],
-        [
-            'text' => 'view_ticket',
-            'route'  => 'tickets.index',
-            'icon' => 'fas fa-fw fa-list',
-        ],
-        [
-            'text' => 'add_ticket',
-            'route'  => 'tickets.create',
-            'icon' => 'fas fa-fw fa-clipboard-check',
         ],
         // [
         //     'text' => 'change_password',
