@@ -29,21 +29,6 @@
         @endif
         <div class="col-6">
             <div class="form-group">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Razón</label>
-                    <input type="text" class="form-control @error('reason') is-invalid @enderror"
-                        id="exampleFormControlInput1" placeholder="Ingrese razón" name="reason"
-                        value="{{ old('reason') ?? (isset($ticket) ? $ticket->reason : '') }}">
-                    @error('reason')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-            </div>
-        </div>
-        <div class="col-6">
-            <div class="form-group">
                 <label for="exampleFormControlInput1" class="form-label">Funcionario</label>
                 <select class="form-control functionary  @error('functionary') is-invalid @enderror"
                     style="width: 100%;" name="functionary"
@@ -91,8 +76,6 @@
             </div>
             <!-- /.form-group -->
         </div>
-    </div>
-    <div class="row">
         <div class="col-6">
             <div class="form-group">
                 <div class="mb-3">
@@ -108,8 +91,8 @@
             </div>
             <!-- /.form-group -->
         </div>
+        <!-- /.card-body -->
     </div>
-    <!-- /.card-body -->
 </div>
 <div class="card-footer">
     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>

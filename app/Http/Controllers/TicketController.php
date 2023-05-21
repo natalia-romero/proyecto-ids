@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
-use Illuminate\Http\Request;
-use Illuminate\Validation;
-use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use Flasher\Toastr\Prime\ToastrFactory;
 use App\Models\Role;
 use App\Models\Ticket;
@@ -33,7 +29,7 @@ class TicketController extends Controller
             $tickets = $tickets->where('user_id', auth()->user()->id);
         }
         //print_r($tickets);
-        return view('tickets.index', ['tickets' => $tickets]);
+        return view('tickets.index', ['tickets' => $tickets, 'close_state' => State::CLOSE_ID]);
     }
 
     /**
@@ -131,6 +127,14 @@ class TicketController extends Controller
             'state_id' => State::CLOSE_ID
         ]);
         $flasher->addSuccess("Ticket cerrado correctamente!", "Enhorabuena");
+        return redirect()->route('tickets.index');
+    }
+    public function open(Ticket $ticket, ToastrFactory $flasher)
+    {
+        $ticket->update([
+            'state_id' => State::OPEN_ID
+        ]);
+        $flasher->addSuccess("Ticket abierto correctamente!", "Enhorabuena");
         return redirect()->route('tickets.index');
     }
     /**

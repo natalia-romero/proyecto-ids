@@ -21,7 +21,7 @@ class StateSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => 'En curso'
+                'name' => 'Asignado a especialista'
             ],
             [
                 'id' => 3,

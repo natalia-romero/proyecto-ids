@@ -1,7 +1,6 @@
 @extends('adminlte::page')
-@section('title', 'Listado de Tickets')
+@section('title', 'Listado de tickets')
 @section('css')
-
 @include('tickets.partials.options')
 
 @stop
@@ -15,7 +14,7 @@
         <div class="col-12 col-xl">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Listado de Tickets</h3>
+                    <h3 class="card-title">Listado de tickets</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -44,14 +43,28 @@
                                                 <i class="fas fa-edit"></i>
                                                 Editar
                                             </a>
-                                            <form action="{{ route('tickets.close', $ticket) }}" method="POST" style="display: inline;" class="close-ticket">
-                                                @csrf
-                                                @method('POST')
-                                                <button class="btn btn-sm btn-warning" type="submit">
-                                                    <i class="fas fa-check-double"></i>
-                                                    Cerrar ticket
-                                                </button>
-                                            </form>
+                                            @if (Auth::user()->is_coordinator && $ticket->state_id == $close_state)
+                                                <form action="{{ route('tickets.open', $ticket) }}" method="POST"
+                                                    style="display: inline;" class="open-ticket">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button class="btn btn-sm btn-success" type="submit">
+                                                        <i class="fas fa-check-double"></i>
+                                                        Abrir ticket
+                                                    </button>
+                                                </form>
+                                            @elseif ($ticket->state_id != $close_state)
+                                                <form action="{{ route('tickets.close', $ticket) }}" method="POST"
+                                                    style="display: inline;" class="close-ticket"  data-*="{{ Auth::user()->is_coordinator }}">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button class="btn btn-sm btn-warning" type="submit">
+                                                        <i class="fas fa-check-double"></i>
+                                                        Cerrar ticket
+                                                    </button>
+                                                </form>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -80,10 +93,15 @@
     @parent
     <script>
         $('.close-ticket').submit(function(e) {
+            var isCoordinator = this.getAttribute('data-*');
+            var textInfo = 'Al cerrar el ticket estás confirmando que el proceso se ha terminado.'
+            if (!isCoordinator) {
+                textInfo = textInfo + ' Esta acción no se puede revertir.';
+            }
             e.preventDefault();
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: 'Al cerrar el ticket estás confirmando que el proceso se ha terminado.',
+                text: textInfo,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, cerrar ticket',

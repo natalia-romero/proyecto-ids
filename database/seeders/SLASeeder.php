@@ -17,18 +17,14 @@ class SLASeeder extends Seeder
         SLA::upsert([
             [
                 'id' => 1,
-                'name' => 'Bajo'
-            ],
-            [
-                'id' => 2,
                 'name' => 'Normal'
             ],
             [
-                'id' => 3,
-                'name' => 'Alto'
+                'id' => 2,
+                'name' => 'Medio'
             ],
             [
-                'id' => 4,
+                'id' => 3,
                 'name' => 'Urgente'
             ],
         ], ['id'], ['name']);

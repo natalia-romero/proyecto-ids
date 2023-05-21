@@ -9,7 +9,7 @@ class State extends Model
 {
     use HasFactory;
     public const OPEN_ID = 1;
-    public const IN_COURSE_ID = 2;
+    public const SPECIALIST_ID = 2;
     public const CLOSE_ID = 3;
     public function tickets()
     {

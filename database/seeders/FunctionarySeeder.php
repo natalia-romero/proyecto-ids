@@ -18,31 +18,31 @@ class FunctionarySeeder extends Seeder
         Functionary::upsert([
             [
                 'id' => 1,
-                'name' => 'John Doe',
+                'name' => 'Natalia Oviedo',
                 'rut' => '123',
                 'phone' => '12345678',
-                'email' => 'john.doe@mail.com',
+                'email' => 'natalia.oviedo@correo.com',
             ],
             [
                 'id' => 2,
-                'name' => 'Diego Perez',
+                'name' => 'Diego Lillo',
                 'rut' => '123',
                 'phone' => '12345678',
-                'email' => 'diego.perez@mail.com',
+                'email' => 'diego.perez@correo.com',
             ],
             [
                 'id' => 3,
-                'name' => 'Homero Simpson',
+                'name' => 'Jonás Bustos',
                 'rut' => '123',
                 'phone' => '12345678',
-                'email' => 'homero.simp@mail.com',
+                'email' => 'jonas.bustos@correo.com',
             ],
             [
                 'id' => 4,
-                'name' => 'Felipe Bustos',
+                'name' => 'Felipe Romero',
                 'rut' => '123',
                 'phone' => '12345678',
-                'email' => 'felipe.bustos@mail.com',
+                'email' => 'felipe.romero@correo.com',
             ],
         ], ['id'], ['name'],['rut'],['phone'],['email']);
     }
