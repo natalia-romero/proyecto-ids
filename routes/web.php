@@ -35,7 +35,10 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('/tickets/close/{ticket}', [TicketController::class, 'close'])->name('tickets.close');
+    Route::post('/tickets/open/{ticket}', [TicketController::class, 'open'])->name('tickets.open');
     Route::resource('tickets', TicketController::class);
 
+    Route::get('/users/deleted', [UserController::class, 'deleted'])->name('users.deleted');    
+    Route::post('/users/restore/{user}', [UserController::class, 'restore'])->withTrashed()->name('users.restore');
     Route::resource('users', UserController::class);
 });

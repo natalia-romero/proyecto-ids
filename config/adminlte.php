@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'tickets',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -324,7 +324,7 @@ return [
             'route'  => 'users.show',
             'icon' => 'fas fa-fw fa-user',
         ],*/
-        ['header' => 'users'],
+        ['header' => 'users', 'can' => 'viewAny-user'],
         [
             'text' => 'view_user',
             'can' => 'viewAny-user',
