@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 @section('title', 'Listado de tickets')
 @section('css')
-@include('tickets.partials.options')
+    @include('tickets.partials.options')
 
 @stop
 
@@ -39,10 +39,14 @@
                                         <td> {{ $ticket->user->name }} </td>
                                         <td> {{ $ticket->state->name }} </td>
                                         <td>
-                                            <a class="btn btn-sm btn-primary " href="{{ route('tickets.edit', $ticket) }}">
-                                                <i class="fas fa-edit"></i>
-                                                Editar
-                                            </a>
+                                            @if ($ticket->state_id != $close_state)
+                                                <a class="btn btn-sm btn-primary "
+                                                    href="{{ route('tickets.edit', $ticket) }}">
+                                                    <i class="fas fa-edit"></i>
+                                                    Editar
+                                                </a>
+                                            @endif
+
                                             @if (Auth::user()->is_coordinator && $ticket->state_id == $close_state)
                                                 <form action="{{ route('tickets.open', $ticket) }}" method="POST"
                                                     style="display: inline;" class="open-ticket">
@@ -55,7 +59,8 @@
                                                 </form>
                                             @elseif ($ticket->state_id != $close_state)
                                                 <form action="{{ route('tickets.close', $ticket) }}" method="POST"
-                                                    style="display: inline;" class="close-ticket"  data-*="{{ Auth::user()->is_coordinator }}">
+                                                    style="display: inline;" class="close-ticket"
+                                                    data-*="{{ Auth::user()->is_coordinator }}">
                                                     @csrf
                                                     @method('POST')
                                                     <button class="btn btn-sm btn-warning" type="submit">
