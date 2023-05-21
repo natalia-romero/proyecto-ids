@@ -61,9 +61,8 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAnyDeleted(User $user)
+    public function viewAnyDisabled(User $user)
     {
-        //Si es gerencia
         return $user->is_coordinator;
     }
     /**

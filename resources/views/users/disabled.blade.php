@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'Listado de usuarios eliminados')
+@section('title', 'Listado de usuarios deshabilitados')
 @section('css')
     @include('users.partials.options')
 @stop
@@ -13,7 +13,7 @@
         <div class="col-12 col-xl">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Listado de usuarios eliminados</h3>
+                    <h3 class="card-title">Listado de usuarios deshabilitados</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
@@ -49,7 +49,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="6"> No hay usuarios eliminados.</td>
+                                    <td colspan="6"> No hay usuarios deshabilitados.</td>
                                 </tr>
                             @endif
                         </tbody>

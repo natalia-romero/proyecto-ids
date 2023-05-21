@@ -36,7 +36,7 @@
                                         <td> {{ $ticket->id }} </td>
                                         <td> {{ $ticket->category->name }} </td>
                                         <td> {{ $ticket->functionary->name }} </td>
-                                        <td> {{ $ticket->user->name }} </td>
+                                        <td> {{ $ticket->user == null ? 'Sin asignar':$ticket->user->name }} </td>
                                         <td> {{ $ticket->state->name }} </td>
                                         <td>
                                             @if ($ticket->state_id != $close_state)

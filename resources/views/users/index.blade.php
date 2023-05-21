@@ -45,7 +45,7 @@
                                                 @method('DELETE')
                                                 <button class="btn btn-sm btn-warning" type="submit">
                                                     <i class="fas fa-trash"></i>
-                                                    Eliminar usuario
+                                                    Deshabilitar usuario
                                                 </button>
                                             </form>
                                         </td>
@@ -79,7 +79,7 @@
             e.preventDefault();
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: 'Si eliminas el usuario no podrás seguir viendo su información, sin embargo sus tickets no se perderán.',
+                text: 'Si deshabilitas a este usuario no podrás seguir viendo su información y los tickets abiertos que estén asignados al él quedarán sin responsable.',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, eliminar usuario.',
