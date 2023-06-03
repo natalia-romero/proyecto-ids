@@ -104,7 +104,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'rut' => ['required', new IsRut, Rule::unique('users')->ignore($user->id)],
-            'phone' => ['required','min:9|max:9','numeric'],
+            'phone' => ['required','digits_between:8,9','numeric'],
             'role' => ['required', 'exists:App\Models\Role,id'],
         ]);
         if ($request->password != null) {
