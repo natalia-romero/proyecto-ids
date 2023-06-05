@@ -13,6 +13,7 @@ use App\Models\SLA;
 use App\Models\Functionary;
 use App\Models\State;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
@@ -22,16 +23,26 @@ class TicketController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tickets = Ticket::all();
         if (!auth()->user()->is_coordinator) {
             $tickets = $tickets->where('user_id', auth()->user()->id);
         }
-        //print_r($tickets);
-        return view('tickets.index', ['tickets' => $tickets, 'close_state' => State::CLOSE_ID]);
+        if (!empty($request['state'])) {
+            $tickets = $tickets->where('state_id', $request['state']);
+        }
+        if (!empty($request['sla'])) {
+            $tickets = $tickets->where('sla_id', $request['sla']);
+        }
+        if (!empty($request['user'])) {
+            $tickets = $tickets->where('user_id', $request['sla']);
+        }
+        $users = User::where('id', '<>', auth()->user()->id)->get();
+        $states = State::all();
+        $slas = SLA::all();
+        return view('tickets.index', ['tickets' => $tickets, 'close_state' => State::CLOSE_ID, 'slas' => $slas, 'states' => $states, 'users' => $users]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -39,7 +50,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $users = User::all();
+        $users = User::where('id', '<>', auth()->user()->id)->get();
         $categories = Category::all();
         $functionaries = Functionary::all();
         return view('tickets.create', ['functionaries' => $functionaries, 'categories' => $categories, 'users' => $users]);
@@ -63,7 +74,7 @@ class TicketController extends Controller
             'description' => $request->description,
             'category_id' => $request->category,
             'functionary_id' => $request->functionary,
-            'sla_id' => SLA::LOW_ID,
+            'sla_id' => SLA::NORMAL_ID,
             'state_id' => State::OPEN_ID,
             'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
         ]);
@@ -90,7 +101,7 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        $users = User::all();
+        $users = User::where('id', '<>', auth()->user()->id)->get();
         $categories = Category::all();
         $functionaries = Functionary::all();
         return view('tickets.edit', ['ticket' => $ticket, 'categories' => $categories, 'functionaries' => $functionaries, 'users' => $users]);
@@ -124,7 +135,7 @@ class TicketController extends Controller
     public function close(Ticket $ticket, ToastrFactory $flasher)
     {
         $ticket->update([
-            'state_id' => State::CLOSE_ID
+            'state_id' => State::CLOSE_ID,
         ]);
         $flasher->addSuccess("Ticket cerrado correctamente!", "Enhorabuena");
         return redirect()->route('tickets.index');

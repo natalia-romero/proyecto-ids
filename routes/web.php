@@ -26,7 +26,6 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    
     Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
 
     
@@ -38,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/tickets/open/{ticket}', [TicketController::class, 'open'])->name('tickets.open');
     Route::resource('tickets', TicketController::class);
 
-    Route::get('/users/disabled', [UserController::class, 'disabled'])->name('users.disabled');    
+    Route::get('/users/disabled', [UserController::class, 'disabled'])->name('users.disabled');
     Route::post('/users/restore/{user}', [UserController::class, 'restore'])->withTrashed()->name('users.restore');
     Route::resource('users', UserController::class);
 });
