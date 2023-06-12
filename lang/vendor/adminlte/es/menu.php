@@ -24,5 +24,5 @@ return [
     'view_ticket'                   => 'Listado de Tickets',
     'view_user'                     => 'Listado de Usuarios',
     'add_user'                      => 'Agregar Usuarios',
-    'view_stats'                    => 'Ver Estadísticas',
+    'view_stat'                    => 'Ver Estadísticas',
 ];

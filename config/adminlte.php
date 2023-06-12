@@ -348,6 +348,13 @@ return [
             'route'  => 'users.create',
             'icon' => 'fas fa-fw fa-users',
         ],
+        ['header' => 'statistics', 'can' => 'view-stats'],
+        [
+            'text' => 'view_stat',
+            'can' => 'view-stats',
+            'route'  => 'users.index',
+            'icon' => 'fas fa-chart-area',
+        ],
         // [
         //     'text' => 'change_password',
         //     'url'  => 'admin/settings',

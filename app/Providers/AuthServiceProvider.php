@@ -27,5 +27,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
         Gate::define('viewAny-user', [UserPolicy::class, 'viewAny']);
         Gate::define('create-user', [UserPolicy::class, 'create']);
+        Gate::define('view-stats', [UserPolicy::class, 'viewAny']);
     }
 }
