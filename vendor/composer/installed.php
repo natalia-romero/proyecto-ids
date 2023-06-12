@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'c928580603f313b9b72b470539c6ef30bf909f5a',
+        'reference' => '62bd1e696eaacc087c73aa19f7e98b744e5d4da0',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -412,6 +412,15 @@
             'reference' => 'c241490eb984511d8f968540ec224b05a09f36bf',
             'dev_requirement' => false,
         ),
+        'kartik-v/bootstrap-fileinput' => array(
+            'pretty_version' => 'v5.5.2',
+            'version' => '5.5.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../kartik-v/bootstrap-fileinput',
+            'aliases' => array(),
+            'reference' => '35c29cd9fd5bc47eae5238feaabee95b2d7efe3c',
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -433,7 +442,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'c928580603f313b9b72b470539c6ef30bf909f5a',
+            'reference' => '62bd1e696eaacc087c73aa19f7e98b744e5d4da0',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(

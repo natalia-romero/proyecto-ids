@@ -42,6 +42,10 @@ class ComposerStaticInit760119590ae8e4d312a826750f5e217d
         array (
             'voku\\' => 5,
         ),
+        'k' => 
+        array (
+            'kartik\\plugins\\fileinput\\' => 25,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -190,6 +194,10 @@ class ComposerStaticInit760119590ae8e4d312a826750f5e217d
         'voku\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'kartik\\plugins\\fileinput\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/bootstrap-fileinput',
         ),
         'Whoops\\' => 
         array (
@@ -574,6 +582,7 @@ class ComposerStaticInit760119590ae8e4d312a826750f5e217d
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\SlaCron' => __DIR__ . '/../..' . '/app/Console/Commands/SlaCron.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\Admin\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/HomeController.php',
