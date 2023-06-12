@@ -147,7 +147,7 @@
         $("#file-1").fileinput({
             theme: 'fa',
             language: 'es',
-            allowedFileExtensions: ['txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
+            allowedFileExtensions: ['png','jpeg','jpg','txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
             overwriteInitial: false,
             maxFileSize: 0,
             maxFilesNum: 10,
