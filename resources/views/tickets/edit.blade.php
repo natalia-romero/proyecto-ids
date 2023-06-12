@@ -18,7 +18,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form action="{{ route('tickets.update', $ticket) }}" method="post">
+            <form action="{{ route('tickets.update', $ticket) }}" method="post" enctype="multipart/form-data">
                 @include('tickets.partials.form', ['ticket' => $ticket])
                 @method('PATCH')
             </form>

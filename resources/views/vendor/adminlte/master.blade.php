@@ -21,7 +21,6 @@
 
     {{-- Custom stylesheets (pre AdminLTE) --}}
     @yield('adminlte_css_pre')
-
     {{-- Base Stylesheets --}}
     @if (!config('adminlte.enabled_laravel_mix'))
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
@@ -39,7 +38,6 @@
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
     @endif
-
     {{-- Livewire Styles --}}
     @if (config('adminlte.livewire'))
         @if (app()->version() >= 7)
@@ -94,6 +92,39 @@
         break;
         }
     @endif
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all"
+        rel="stylesheet" type="text/css" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all"
+        rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .main-section {
+
+            margin: 0 auto;
+
+            padding: 20px;
+
+            margin-top: 100px;
+
+            background-color: #fff;
+
+            box-shadow: 0px 0px 20px #c1c1c1;
+
+        }
+
+        .file-caption-icon, .kv-caption-icon{
+            display: none;
+        }
+
+        .fileinput-remove,
+
+        .fileinput-upload {
+
+            display: none;
+
+        }
+    </style>
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
@@ -123,10 +154,8 @@
             <livewire:scripts />
         @endif
     @endif
-
     {{-- Custom Scripts --}}
     @yield('adminlte_js')
-
 </body>
 
 </html>

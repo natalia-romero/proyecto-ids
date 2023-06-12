@@ -6,8 +6,9 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use Illuminate\Validation\Rule;
 use Flasher\Toastr\Prime\ToastrFactory;
-use App\Models\Role;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Ticket;
+use App\Models\File;
 use App\Models\Category;
 use App\Models\SLA;
 use App\Models\Functionary;
@@ -36,7 +37,7 @@ class TicketController extends Controller
             $tickets = $tickets->where('sla_id', $request['sla']);
         }
         if (!empty($request['user'])) {
-            $tickets = $tickets->where('user_id', $request['sla']);
+            $tickets = $tickets->where('user_id', $request['user']);
         }
         $users = User::where('id', '<>', auth()->user()->id)->get();
         $states = State::all();
@@ -64,6 +65,7 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request, ToastrFactory $flasher)
     {
+        
         $request->validate([
             'description' => ['required'],
             'category' => ['required'],
@@ -78,6 +80,17 @@ class TicketController extends Controller
             'state_id' => State::OPEN_ID,
             'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
         ]);
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('public/documents');
+                $name = $file->getClientOriginalName();
+                $new_file = File::create([
+                    'name' => $name,
+                    'path' => $path,
+                    'ticket_id' => $ticket->id,
+                ]);
+            }
+        }
         $flasher->addSuccess("Ticket creado correctamente!", "Enhorabuena");
         return redirect()->route('tickets.index');
     }
@@ -102,9 +115,10 @@ class TicketController extends Controller
     public function edit(Ticket $ticket)
     {
         $users = User::where('id', '<>', auth()->user()->id)->get();
+        $states = State::all();
         $categories = Category::all();
         $functionaries = Functionary::all();
-        return view('tickets.edit', ['ticket' => $ticket, 'categories' => $categories, 'functionaries' => $functionaries, 'users' => $users]);
+        return view('tickets.edit', ['ticket' => $ticket, 'categories' => $categories, 'functionaries' => $functionaries, 'users' => $users, 'states' => $states]);
     }
 
     /**
@@ -120,14 +134,27 @@ class TicketController extends Controller
             'description' => ['required'],
             'category' => ['required'],
             'functionary' => ['required'],
+            'state' => ['required'],
             'user' => Rule::requiredIf(Auth::user()->is_coordinator),
         ]);
         $ticket->update([
             'description' => $request->description,
+            'state_id' => $request->state,
             'category_id' => $request->category,
             'functionary_id' => $request->functionary,
             'user_id' => (Auth::user()->is_coordinator ? $request->user : Auth::user()->id),
         ]);
+        if ($request->hasFile('files')) {
+            foreach ($request->file('files') as $file) {
+                $path = $file->store('public/documents');
+                $name = $file->getClientOriginalName();
+                $new_file = File::create([
+                    'name' => $name,
+                    'path' => $path,
+                    'ticket_id' => $ticket->id,
+                ]);
+            }
+        }
         $flasher->addSuccess("Ticket editado correctamente!", "Enhorabuena");
         return redirect()->route('tickets.index');
     }

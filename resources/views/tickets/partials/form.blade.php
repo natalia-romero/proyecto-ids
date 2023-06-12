@@ -76,6 +76,32 @@
             </div>
             <!-- /.form-group -->
         </div>
+        @if (Route::currentRouteName() == 'tickets.edit')
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1" class="form-label">Estado</label>
+                    <select class="form-control state  @error('state') is-invalid @enderror" style="width: 100%;"
+                        name="state">
+                        <option></option>
+                        @if (!empty($states) && $states->count())
+                            @foreach ($states as $state)
+                                <option value="{{ $state->id }}" @selected(isset($ticket) ? $ticket->state_id == $state->id : 0)>
+                                    {{ $state->name }}
+                                </option>
+                            @endforeach
+                        @else
+                            <option disabled>No hay estados.</option>
+                        @endif
+                    </select>
+                    @error('category')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+        @endif
+        <!-- /.form-group -->
         <div class="col-6">
             <div class="form-group">
                 <div class="mb-3">
@@ -91,19 +117,59 @@
             </div>
             <!-- /.form-group -->
         </div>
+        <div class="col">
+            <div class="form-group">
+                <div class="mb-3">
+                    <label for="formFileMultiple" class="form-label">Subir archivos</label>
+                    <input id="file-1" type="file" name="files[]" multiple class="file" data-overwrite-initial="false">
+                </div>
+            </div>
+        </div>
         <!-- /.card-body -->
     </div>
 </div>
 <div class="card-footer">
     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-    <a class="btn btn-secondary" href="{{route('tickets.index')}}"><i class="fas fa-ban"></i> Cancelar</a>
+    <a class="btn btn-secondary" href="{{ route('tickets.index') }}"><i class="fas fa-ban"></i> Cancelar</a>
 </div>
 @section('js')
     @parent
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/js/fileinput.js" type="text/javascript">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/themes/fa/theme.js"
+        type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#file-1").fileinput({
+                theme: 'fa',
+                allowedFileExtensions: ['txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
+                overwriteInitial: false,
+                maxFileSize: 0,
+                maxFilesNum: 10,
+                showUpload: false,
+                initialCaption: "Selecciona archivos",
+                slugCallback: function(filename) {
+                    return filename.replace('(', '_').replace(']', '_');
+                }
+
+            });
+            $(".btn-primary").on("click", function() {
+                $("#file-1").fileinput('upload');
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('.functionary').select2({
                 placeholder: "Seleccione funcionario",
+                allowClear: true
+            });
+            $('.state').select2({
+                placeholder: "Seleccione estado",
                 allowClear: true
             });
             $('.category').select2({

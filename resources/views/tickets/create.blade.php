@@ -2,7 +2,8 @@
 @section('title', 'Crear Ticket')
 @section('css')
 @include('tickets.partials.options')
-
+<link href="{{ asset('vendor/css/app.css') }}" rel="stylesheet">
+<script src="{{ asset('vendor/js/app.js') }}"></script>
 @stop
 
 @section('content_header')
