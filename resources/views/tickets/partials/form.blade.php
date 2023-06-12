@@ -121,7 +121,8 @@
             <div class="form-group">
                 <div class="mb-3">
                     <label for="formFileMultiple" class="form-label">Subir archivos</label>
-                    <input id="file-1" type="file" name="files[]" multiple class="file" data-overwrite-initial="false">
+                    <input id="file-1" type="file" name="files[]" multiple class="file"
+                        data-overwrite-initial="false">
                 </div>
             </div>
         </div>
@@ -143,23 +144,22 @@
 
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#file-1").fileinput({
-                theme: 'fa',
-                allowedFileExtensions: ['txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
-                overwriteInitial: false,
-                maxFileSize: 0,
-                maxFilesNum: 10,
-                showUpload: false,
-                initialCaption: "Selecciona archivos",
-                slugCallback: function(filename) {
-                    return filename.replace('(', '_').replace(']', '_');
-                }
+        $("#file-1").fileinput({
+            theme: 'fa',
+            language: 'es',
+            allowedFileExtensions: ['txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
+            overwriteInitial: false,
+            maxFileSize: 0,
+            maxFilesNum: 10,
+            showUpload: false,
+            initialCaption: "Selecciona archivos",
+            slugCallback: function(filename) {
+                return filename.replace('(', '_').replace(']', '_');
+            }
 
-            });
-            $(".btn-primary").on("click", function() {
-                $("#file-1").fileinput('upload');
-            });
+        });
+        $(".btn-primary").on("click", function() {
+            $("#file-1").fileinput('upload');
         });
     </script>
     <script>
