@@ -51,6 +51,10 @@
                                         @endif
                                         <td> {{ $ticket->state->name }} </td>
                                         <td>
+                                            <a class="btn btn-sm bg-purple " href="{{ route('tickets.index') }}">
+                                                <i class="fas fa-eye"></i>
+                                                Ver
+                                            </a>
                                             @if ($ticket->state_id != $close_state)
                                                 <a class="btn btn-sm btn-primary "
                                                     href="{{ route('tickets.edit', $ticket) }}">
@@ -101,13 +105,11 @@
         </div>
         <div class="col-12 order-first col-xl-3 order-xl-last">
             <section class="content">
-
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
                             <!-- Default box -->
-                            <form action="{{ route('tickets.index') }}" enctype="multipart/form-data"
-                                id="ticketFilter">
+                            <form action="{{ route('tickets.index') }}" enctype="multipart/form-data" id="ticketFilter">
                                 @csrf
                                 <div class="card">
                                     <div class="card-header">
@@ -181,15 +183,58 @@
                                     </div>
                                     <!-- /.card-body -->
                                     <div class="card-footer">
-                                        <button type="submit" class="btn btn-info"><i class="fas fa-filter"></i>
-                                            Aplicar filtros
-                                        </button>
-                                        <a class="btn btn-default" href="{{ route('tickets.index') }}">
-                                            <i class="fas fa-broom"></i>
-                                            Limpiar filtros
-                                        </a>
+                                        <center>
+                                            <button type="submit" class="btn btn-info "><i class="fas fa-filter"></i>
+                                                Aplicar filtros
+                                            </button>
+                                            <a class="btn btn-default" href="{{ route('tickets.index') }}">
+                                                <i class="fas fa-broom"></i>
+                                                Limpiar filtros
+                                            </a>
+                                        </center>
                                     </div>
                                     <!-- /.card-footer-->
+                                </div>
+
+                            </form>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-12">
+                            <!-- Default box -->
+                            <form action="{{ route('tickets.index') }}" enctype="multipart/form-data" id="ticketFilter">
+                                @csrf
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Opciones</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                                title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-success btn-block">
+                                                    <i class="fas fa-file-csv"></i>
+
+                                                    Exportar a CSV
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-danger btn-block">
+                                                    <i class="fas fa-file-pdf"></i>
+
+                                                    Exportar a PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
                                 </div>
 
                             </form>
