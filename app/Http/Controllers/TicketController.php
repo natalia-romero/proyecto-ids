@@ -103,7 +103,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        $files = File::where('ticket_id',$ticket->id)->get();
+        return view('tickets.show', ['ticket' => $ticket, 'files' => $files]);
     }
 
     /**

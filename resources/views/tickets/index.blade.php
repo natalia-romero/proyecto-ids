@@ -51,7 +51,7 @@
                                         @endif
                                         <td> {{ $ticket->state->name }} </td>
                                         <td>
-                                            <a class="btn btn-sm bg-purple " href="{{ route('tickets.index') }}">
+                                            <a class="btn btn-sm bg-purple " href="{{ route('tickets.show',$ticket) }}">
                                                 <i class="fas fa-eye"></i>
                                                 Ver
                                             </a>
