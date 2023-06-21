@@ -149,7 +149,7 @@
             language: 'es',
             allowedFileExtensions: ['png','jpeg','jpg','txt', 'ods', 'pdf', 'doc', 'docx', 'xlx', 'xlxs'],
             overwriteInitial: false,
-            maxFileSize: 0,
+            maxFileSize: 20000,
             maxFilesNum: 10,
             showUpload: false,
             initialCaption: "Selecciona archivos",
