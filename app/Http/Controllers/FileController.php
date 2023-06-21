@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
@@ -47,7 +47,8 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        //
+        $path = File::where('id', $file->id)->value('path');  
+        return Storage::download($path);
     }
 
     /**
