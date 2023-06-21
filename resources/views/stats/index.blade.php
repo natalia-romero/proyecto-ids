@@ -149,33 +149,32 @@
             // Get context with jQuery - using jQuery's .get() method.
             var donutData = @json($donutData);
             var users = @json($users);
-            console.log(users);
             var names = ['Sin asignar'];
             var colors = ["#" + Math.floor(Math.random() * 16777215).toString(16)];
             var count = [
                 [0, 0]
-            ]
+            ];
             users.forEach(element => {
-                names.push(element['name'])
+                names.push(element['name']);
                 colors.push("#" + Math.floor(Math.random() * 16777215).toString(16));
                 count.push([element['id'], 0]);
             });
-            console.log(count);
-            for (let i = 0; i < donutData.length; i++) {
-                if (donutData[i]['user_id'] == null) {
-                    count[0][1] = donutData[i]['count'];
+            donutData.forEach(data => {
+                var userId = data['user_id'];
+                var dataCount = data['count'];
+
+                if (userId == null) {
+                    count[0][1] = dataCount;
                 } else {
                     count.forEach(element => {
-                        if (element[0] == donutData[i]['user_id']) {
-                            element[1] = donutData[i]['count']
+                        if (element[0] == userId) {
+                            element[1] = dataCount;
                         }
                     });
                 }
-            }
-            showCount = []
-            count.forEach(element => {
-                showCount.push(element[1]);
             });
+            var showCount = count.map(element => element[1]);
+
             var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
             var donutData = {
                 labels: names,
