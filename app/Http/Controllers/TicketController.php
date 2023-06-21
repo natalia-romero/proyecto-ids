@@ -106,7 +106,7 @@ class TicketController extends Controller
     {
         $files = File::where('ticket_id',$ticket->id)->get();
         $comments = Comment::where('ticket_id',$ticket->id)->get();
-        return view('tickets.show', ['ticket' => $ticket, 'files' => $files, 'comments' => $comments]);
+        return view('tickets.show', ['ticket' => $ticket, 'files' => $files, 'comments' => $comments, 'close_state' => State::CLOSE_ID]);
     }
 
     /**

@@ -124,15 +124,16 @@
                                 @foreach ($comments as $comment)
                                     <div class="post text-dark">
                                         <div class="user-block">
-                                            <img class="img-circle img-bordered-sm" src="">
+                                            <img class="img-circle img-bordered-sm"
+                                                src="{{ asset('vendor/adminlte/dist/img/default-user-icon.png') }}">
                                             <span class="username">
-                                                {{$comment->user->name}}
+                                                {{ $comment->user->name }}
                                             </span>
-                                            <span class="description">{{$comment->created_at}}</span>
+                                            <span class="description">{{ $comment->created_at }}</span>
                                         </div>
                                         <!-- /.user-block -->
                                         <p>
-                                        {{$comment->description}}
+                                            {{ $comment->description }}
                                         </p>
                                     </div>
                                 @endforeach
@@ -142,25 +143,27 @@
                                 <p> No hay comentarios.</p>
                             @endif
                         </div><!-- /.card-body -->
-                        <div class="card-footer">
-                            <form action="{{ route('comments.store') }}" class="form-horizontal" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <div class="input-group input-group-sm mb-0">
-                                    <input type="hidden" value="{{ $ticket->id }}" name="ticket">
-                                    <textarea class="form-control form-control-sm @error('description') is-invalid @enderror" name="description"
-                                        placeholder="Añadir comentario"></textarea>
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-primary">Enviar</button>
+                        @if ($ticket->state_id != $close_state)
+                            <div class="card-footer">
+                                <form action="{{ route('comments.store') }}" class="form-horizontal" method="post"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="input-group input-group-sm mb-0">
+                                        <input type="hidden" value="{{ $ticket->id }}" name="ticket">
+                                        <textarea class="form-control form-control-sm @error('description') is-invalid @enderror" name="description"
+                                            placeholder="Añadir comentario"></textarea>
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary">Enviar</button>
+                                        </div>
+                                        @error('description')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
-                                    @error('description')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </form>
-                        </div>
+                                </form>
+                            </div>
+                        @endif
                     </div>
                     <!-- /.card -->
                 </div>
