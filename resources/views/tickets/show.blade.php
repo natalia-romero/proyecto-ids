@@ -84,14 +84,17 @@
                                                 <td>{{ round(Storage::disk('local')->size($file->path) / 1000, 1) }} KB
                                                 </td>
                                                 <td> {{ strtoupper(pathinfo($file->path, PATHINFO_EXTENSION)) }} </td>
-                                                <td class="text-right py-0 align-middle">
-                                                    <div class="btn-group btn-group-sm">
-                                                        <a href="{{ route('files.show', $file) }}" class="btn btn-info">
-                                                            <i class="fas fa-download"></i>
-                                                        </a>
-                                                        <a href="#" class="btn btn-danger"><i
-                                                                class="fas fa-trash"></i></a>
-                                                    </div>
+                                                <td>
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('files.show', $file)}}">
+                                                        <i class="fas fa-download"></i>
+                                                    </a>
+                                                    <form action="{{route('files.destroy', ['file' => $file, 'ticket' => $ticket])}}" method="POST" style="display: inline;" class="delete">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="btn btn-sm btn-danger" type="submit">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
