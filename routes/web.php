@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\TicketController;
 use App\Models\Ticket;
 
@@ -40,4 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/users/disabled', [UserController::class, 'disabled'])->name('users.disabled');
     Route::post('/users/restore/{user}', [UserController::class, 'restore'])->withTrashed()->name('users.restore');
     Route::resource('users', UserController::class);
+
+    Route::resource('files', FileController::class);
 });
