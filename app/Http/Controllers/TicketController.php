@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Ticket;
+use App\Models\Comment;
 use App\Models\File;
 use App\Models\Category;
 use App\Models\SLA;
@@ -104,7 +105,8 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $files = File::where('ticket_id',$ticket->id)->get();
-        return view('tickets.show', ['ticket' => $ticket, 'files' => $files]);
+        $comments = Comment::where('ticket_id',$ticket->id)->get();
+        return view('tickets.show', ['ticket' => $ticket, 'files' => $files, 'comments' => $comments]);
     }
 
     /**
