@@ -352,7 +352,7 @@ return [
         [
             'text' => 'view_stat',
             'can' => 'view-stats',
-            'route'  => 'users.index',
+            'route'  => 'stats.index',
             'icon' => 'fas fa-chart-area',
         ],
         // [
@@ -487,7 +487,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
