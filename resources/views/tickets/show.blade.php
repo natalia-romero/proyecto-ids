@@ -85,10 +85,13 @@
                                                 </td>
                                                 <td> {{ strtoupper(pathinfo($file->path, PATHINFO_EXTENSION)) }} </td>
                                                 <td>
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('files.show', $file)}}">
+                                                    <a class="btn btn-sm btn-primary "
+                                                        href="{{ route('files.show', $file) }}">
                                                         <i class="fas fa-download"></i>
                                                     </a>
-                                                    <form action="{{route('files.destroy', ['file' => $file, 'ticket' => $ticket])}}" method="POST" style="display: inline;" class="delete">
+                                                    <form
+                                                        action="{{ route('files.destroy', ['file' => $file, 'ticket' => $ticket]) }}"
+                                                        method="POST" style="display: inline;" class="delete">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button class="btn btn-sm btn-danger" type="submit">
@@ -117,32 +120,44 @@
                             <h3 class="card-title">Comentarios</h3>
                         </div><!-- /.card-header -->
                         <div class="card-body">
-                            <div class="post text-dark">
-                                <div class="user-block">
-                                    <img class="img-circle img-bordered-sm" src="">
-                                    <span class="username">
-                                        Jonathan Burke Jr.
-                                    </span>
-                                    <span class="description">7:30 PM today</span>
-                                </div>
-                                <!-- /.user-block -->
-                                <p>
-                                    Lorem ipsum represents a long-held tradition for designers,
-                                    typographers and the like. Some people hate it and argue for
-                                    its demise, but others ignore the hate as they create awesome
-                                    tools to help create filler text for everyone from bacon lovers
-                                    to Charlie Sheen fans.
-                                </p>
-                            </div>
-                            <!-- /.tab-content -->
+                            @if (!empty($comments) && $comments->count())
+                                @foreach ($comments as $comment)
+                                    <div class="post text-dark">
+                                        <div class="user-block">
+                                            <img class="img-circle img-bordered-sm" src="">
+                                            <span class="username">
+                                                {{$comment->user->name}}
+                                            </span>
+                                            <span class="description">{{$comment->created_at}}</span>
+                                        </div>
+                                        <!-- /.user-block -->
+                                        <p>
+                                        {{$comment->description}}
+                                        </p>
+                                    </div>
+                                @endforeach
+
+                                <!-- /.tab-content -->
+                            @else
+                                <p> No hay comentarios.</p>
+                            @endif
                         </div><!-- /.card-body -->
                         <div class="card-footer">
-                            <form class="form-horizontal">
+                            <form action="{{ route('comments.store') }}" class="form-horizontal" method="post"
+                                enctype="multipart/form-data">
+                                @csrf
                                 <div class="input-group input-group-sm mb-0">
-                                    <textarea class="form-control form-control-sm" placeholder="Añadir comentario"></textarea>
+                                    <input type="hidden" value="{{ $ticket->id }}" name="ticket">
+                                    <textarea class="form-control form-control-sm @error('description') is-invalid @enderror" name="description"
+                                        placeholder="Añadir comentario"></textarea>
                                     <div class="input-group-append">
                                         <button type="submit" class="btn btn-primary">Enviar</button>
                                     </div>
+                                    @error('description')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </form>
                         </div>
