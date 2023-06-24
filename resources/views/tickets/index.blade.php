@@ -51,7 +51,7 @@
                                         @endif
                                         <td> {{ $ticket->state->name }} </td>
                                         <td>
-                                            <a class="btn btn-sm bg-purple " href="{{ route('tickets.show',$ticket) }}">
+                                            <a class="btn btn-sm bg-purple " href="{{ route('tickets.show', $ticket) }}">
                                                 <i class="fas fa-eye"></i>
                                                 Ver
                                             </a>
@@ -201,43 +201,40 @@
                         </div>
                         <div class="col-12">
                             <!-- Default box -->
-                            <form action="{{ route('tickets.index') }}" enctype="multipart/form-data" id="ticketFilter">
-                                @csrf
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Opciones</h3>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Opciones</h3>
 
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                                title="Collapse">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                        </div>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
+                                            title="Collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-success btn-block">
-                                                    <i class="fas fa-file-csv"></i>
-
-                                                    Exportar a CSV
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <button type="submit" class="btn btn-danger btn-block">
-                                                    <i class="fas fa-file-pdf"></i>
-
-                                                    Exportar a PDF
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-body -->
                                 </div>
-
-                            </form>
+                                <div class="card-body">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <a href="{{route('tickets.exportCSV',request()->query())}}" type="button" class="btn btn-success btn-block">
+                                                <i class="fas fa-file-csv"></i>
+                                                Exportar a CSV
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <form action="{{ route('tickets.index') }}" method="post"
+                                        enctype="multipart/form-data">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <a href="{{route('tickets.exportPDF',request()->query())}}" type="button" class="btn btn-danger btn-block">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                    Exportar a PDF
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
                             <!-- /.card -->
                         </div>
                     </div>

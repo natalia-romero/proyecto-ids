@@ -36,6 +36,8 @@ Route::middleware('auth')->group(function () {
         return redirect()->route('tickets.index', Auth::user());
     });
 
+    Route::get('/tickets/exportCSV/', [TicketController::class, 'exportCSV'])->name('tickets.exportCSV');
+    Route::get('/tickets/exportPDF/', [TicketController::class, 'exportPDF'])->name('tickets.exportPDF');
     Route::post('/tickets/close/{ticket}', [TicketController::class, 'close'])->name('tickets.close');
     Route::post('/tickets/open/{ticket}', [TicketController::class, 'open'])->name('tickets.open');
     Route::resource('tickets', TicketController::class);

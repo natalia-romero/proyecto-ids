@@ -6,7 +6,8 @@ use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 use Illuminate\Validation\Rule;
 use Flasher\Toastr\Prime\ToastrFactory;
-use Illuminate\Support\Facades\Storage;
+use App\Exports\TicketsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Ticket;
 use App\Models\Comment;
 use App\Models\File;
@@ -66,7 +67,7 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request, ToastrFactory $flasher)
     {
-        
+
         $request->validate([
             'description' => ['required'],
             'category' => ['required'],
@@ -104,8 +105,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $files = File::where('ticket_id',$ticket->id)->get();
-        $comments = Comment::where('ticket_id',$ticket->id)->get();
+        $files = File::where('ticket_id', $ticket->id)->get();
+        $comments = Comment::where('ticket_id', $ticket->id)->get();
         return view('tickets.show', ['ticket' => $ticket, 'files' => $files, 'comments' => $comments, 'close_state' => State::CLOSE_ID]);
     }
 
@@ -188,4 +189,38 @@ class TicketController extends Controller
     {
         //
     }
+
+    public function getTickets(Request $request)
+    {
+        $tickets = Ticket::all();
+        if (!auth()->user()->is_coordinator) {
+            $tickets = $tickets->where('user_id', auth()->user()->id);
+        }
+        if (!empty($request['state'])) {
+            $tickets = $tickets->where('state_id', $request['state']);
+        }
+        if (!empty($request['sla'])) {
+            $tickets = $tickets->where('sla_id', $request['sla']);
+        }
+        if (!empty($request['user'])) {
+            $tickets = $tickets->where('user_id', $request['user']);
+        }
+        return $tickets;
+    }
+
+    public function exportCSV(Request $request)
+    { 
+       $tickets = $this->getTickets($request);
+        $file_name = 'tickets_' . date('Y_m_d_H_i_s') . '.csv';
+        return Excel::download(new TicketsExport($tickets), $file_name);
+    }
+
+    public function exportPDF(Request $request)
+    {
+        $tickets = $this->getTickets($request);
+        $file_name = 'tickets_' . date('Y_m_d_H_i_s') . '.pdf';
+        return Excel::download(new TicketsExport($tickets), $file_name,\Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    
 }
