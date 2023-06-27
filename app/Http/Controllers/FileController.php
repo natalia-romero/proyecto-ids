@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Flasher\Toastr\Prime\ToastrFactory;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreFileRequest;
 use App\Http\Requests\UpdateFileRequest;
 use App\Models\File;
+use App\Models\Ticket;
+use Illuminate\Contracts\Cache\Store;
 
 class FileController extends Controller
 {
@@ -47,7 +50,8 @@ class FileController extends Controller
      */
     public function show(File $file)
     {
-        //
+        $path = File::where('id', $file->id)->value('path');
+        return Storage::download($path);
     }
 
     /**
@@ -79,8 +83,14 @@ class FileController extends Controller
      * @param  \App\Models\File  $file
      * @return \Illuminate\Http\Response
      */
-    public function destroy(File $file)
+    public function destroy(File $file, Ticket $ticket, ToastrFactory $flasher)
     {
-        //
+        if ($file->delete()) {
+            Storage::delete($file->path);
+            $flasher->addSuccess("Archivo borrado correctamente!", "Enhorabuena");
+        } else {
+            $flasher->addWarning("Hubo un problema al borrar el archivo.", "Error");
+        }
+        return back();
     }
 }

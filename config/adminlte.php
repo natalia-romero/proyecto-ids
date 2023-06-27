@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 return [
 
     /*
@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<h5><b>Gestión de Tickets</b></h5>',
+    'logo' => '<h5>Gestión de Tickets</h5>',
     'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
     'logo_img_class' => 'brand-image img-circle',
     'logo_img_xl' => null,
@@ -107,7 +107,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'tickets',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -318,39 +318,42 @@ return [
         //     'label'       => 4,
         //     'label_color' => 'success',
         // ],
-        ['header' => 'account_settings'],
-        [
+        /*['header' => 'account_settings'],
+        /*[
             'text' => 'profile',
-            'url'  => 'admin/settings',
+            'route'  => 'users.show',
             'icon' => 'fas fa-fw fa-user',
-        ],
-        ['header' => 'users'],
-        [
-            'text' => 'view_user',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-list',
-        ],
-        [
-            'text' => 'add_user',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-users',
-        ],
+        ],*/
         ['header' => 'tickets'],
         [
             'text' => 'view_ticket',
-            'url'  => 'admin/settings',
+            'route'  => 'tickets.index',
             'icon' => 'fas fa-fw fa-list',
         ],
         [
             'text' => 'add_ticket',
-            'url'  => 'admin/settings',
+            'route'  => 'tickets.create',
             'icon' => 'fas fa-fw fa-clipboard-check',
         ],
-        ['header' => 'statistics'],
+        ['header' => 'users', 'can' => 'viewAny-user'],
         [
-            'text' => 'view_stats',
-            'url'  => 'admin/settings',
+            'text' => 'view_user',
+            'can' => 'viewAny-user',
+            'route'  => 'users.index',
             'icon' => 'fas fa-fw fa-list',
+        ],
+        [
+            'text' => 'add_user',
+            'can' => 'create-user',
+            'route'  => 'users.create',
+            'icon' => 'fas fa-fw fa-users',
+        ],
+        ['header' => 'statistics', 'can' => 'view-stats'],
+        [
+            'text' => 'view_stat',
+            'can' => 'view-stats',
+            'route'  => 'stats.index',
+            'icon' => 'fas fa-chart-area',
         ],
         // [
         //     'text' => 'change_password',
@@ -469,7 +472,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -484,7 +487,7 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -494,12 +497,12 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@9',
                 ],
             ],
         ],

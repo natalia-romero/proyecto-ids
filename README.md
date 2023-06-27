@@ -39,7 +39,7 @@ php artisan key:generate
 Instalar paquetes necesarios
 ```
 composer install
-nmp install
+npm install
 npm run dev
 ```
 
@@ -59,4 +59,4 @@ Ejecuta el servidor con
 ```
 php artisan serve
 ```
-Se podrá acceder desde http://localhost:8000 con el Usuario admin@admin.com - Admin
+Se podrá acceder desde http://localhost:8000 con el Usuario coodinador@correo.com - 12345678

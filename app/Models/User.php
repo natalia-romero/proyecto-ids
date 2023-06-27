@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'rut',
-        'phone'
+        'phone',
+        'role_id'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -34,9 +36,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsTo(Role::class);
     }
     public function tickets()
     {
@@ -46,8 +48,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
-    public function isCoordinator()
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['is_coordinator'];
+
+    public function isCoordinator(): Attribute
     {
-        return $this->id == Role::COORDINATOR_ID;
+        return new Attribute(
+            get: fn () => $this->role_id == Role::COORDINATOR_ID,
+        );
     }
 }

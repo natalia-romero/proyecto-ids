@@ -16,7 +16,6 @@ class Ticket extends Model
      */
 
     protected $fillable = [
-        'reason',
         'description',
         'user_id',
         'functionary_id',
@@ -25,32 +24,32 @@ class Ticket extends Model
         'sla_id',
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->withTrashed();
     }
-    public function functionaries()
+    public function functionary()
     {
         return $this->belongsTo(Functionary::class, 'functionary_id');
     }
-    public function categories()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-    public function states()
+    public function state()
     {
         return $this->belongsTo(State::class, 'state_id');
     }
-    public function slas()
+    public function sla()
     {
         return $this->belongsTo(SLA::class, 'sla_id');
     }
 
-    public function files()
+    public function file()
     {
         return $this->hasMany(File::class);
     }
-    public function comments()
+    public function comment()
     {
         return $this->hasMany(Comment::class);
     }

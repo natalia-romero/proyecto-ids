@@ -21,8 +21,8 @@ return [
     'tickets'                       => 'TICKETS',
     'statistics'                    => 'ESTADÍSTICAS',
     'add_ticket'                    => 'Agregar Ticket',
-    'view_ticket'                   => 'Ver Tickets',
-    'view_user'                     => 'Ver Usuarios',
+    'view_ticket'                   => 'Listado de Tickets',
+    'view_user'                     => 'Listado de Usuarios',
     'add_user'                      => 'Agregar Usuarios',
-    'view_stats'                    => 'Ver Estadísticas',
+    'view_stat'                    => 'Ver Estadísticas',
 ];

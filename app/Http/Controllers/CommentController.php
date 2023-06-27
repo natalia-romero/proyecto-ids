@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use App\Models\Comment;
+use App\Models\Ticket;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -36,7 +38,15 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        $request->validate([
+            'description' => ['required']
+        ]);
+        $comment = Comment::create([
+            'description' => $request->description,
+            'ticket_id' => $request->ticket,
+            'user_id' => Auth::user()->id
+        ]);
+        return back();
     }
 
     /**

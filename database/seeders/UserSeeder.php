@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,13 +20,22 @@ class UserSeeder extends Seeder
         User::upsert([
             [
                 'id' => 1,
-                'name' => 'Admin',
+                'name' => 'Coordinador',
                 'rut' => '12345678-1',
                 'phone' => '+56912345678',
-                'email' => 'admin@admin.com',
-                'password' => Hash::make('Admin'),
-                'role_id' => 1
-            ]
-        ],['id'],['name'],['rut'],['phone'],['email'],['password'],['role_id']);
+                'email' => 'coordinador@correo.com',
+                'password' => Hash::make('12345678'),
+                'role_id' => Role::COORDINATOR_ID
+            ],
+            [
+                'id' => 2,
+                'name' => 'John Doe',
+                'rut' => '22333444-1',
+                'phone' => '+56912345678',
+                'email' => 'soporte@correo.com',
+                'password' => Hash::make('12345678'),
+                'role_id' => Role::SUPPORT_ID
+            ],
+        ],['id']);
     }
 }
