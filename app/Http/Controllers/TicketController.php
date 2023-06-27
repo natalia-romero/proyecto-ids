@@ -28,7 +28,7 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::query();
         if (!auth()->user()->is_coordinator) {
             $tickets = $tickets->where('user_id', auth()->user()->id);
         }
@@ -44,6 +44,7 @@ class TicketController extends Controller
         $users = User::where('id', '<>', auth()->user()->id)->get();
         $states = State::all();
         $slas = SLA::all();
+        $tickets = $tickets->paginate(10);
         return view('tickets.index', ['tickets' => $tickets, 'close_state' => State::CLOSE_ID, 'slas' => $slas, 'states' => $states, 'users' => $users]);
     }
     /**

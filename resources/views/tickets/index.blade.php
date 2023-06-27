@@ -101,6 +101,9 @@
                     </div>
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer pagination justify-content-center">
+                    {{ $tickets->links() }}
+                </div>
             </div>
         </div>
         <div class="col-12 order-first col-xl-3 order-xl-last">
@@ -215,7 +218,8 @@
                                 <div class="card-body">
                                     <div class="col">
                                         <div class="form-group">
-                                            <a href="{{route('tickets.exportCSV',request()->query())}}" type="button" class="btn btn-success btn-block">
+                                            <a href="{{ route('tickets.exportCSV', request()->query()) }}" type="button"
+                                                class="btn btn-success btn-block">
                                                 <i class="fas fa-file-csv"></i>
                                                 Exportar a CSV
                                             </a>
@@ -225,7 +229,8 @@
                                         enctype="multipart/form-data">
                                         <div class="col">
                                             <div class="form-group">
-                                                <a href="{{route('tickets.exportPDF',request()->query())}}" type="button" class="btn btn-danger btn-block">
+                                                <a href="{{ route('tickets.exportPDF', request()->query()) }}"
+                                                    type="button" class="btn btn-danger btn-block">
                                                     <i class="fas fa-file-pdf"></i>
                                                     Exportar a PDF
                                                 </a>

@@ -25,7 +25,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('id', '<>', Auth::user()->id)->get();
+        $users = User::where('id', '<>', Auth::user()->id);
+        $users = $users->paginate(10);
         return view('users.index', ['users' => $users]);
     }
 
@@ -134,7 +135,8 @@ class UserController extends Controller
      */
     public function disabled()
     {
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed();
+        $users = $users->paginate(10);
         return view('users.disabled', ['users' => $users]);
     }
 

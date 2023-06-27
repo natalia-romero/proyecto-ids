@@ -63,6 +63,9 @@
                     </div>
                 </div>
                 <!-- /.card-body -->
+                <div class="card-footer pagination justify-content-center">
+                    {{ $users->links() }}
+                </div>
             </div>
         </div>
         @hasSection('options')
