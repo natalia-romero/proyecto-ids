@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Detalle Ticket #{{ $ticket->id }}</h3>
                         </div>
@@ -61,7 +61,7 @@
                     </div>
                     <!-- /.card -->
                     <!-- About Me Box -->
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Archivos</h3>
                         </div>
@@ -115,7 +115,7 @@
 
                 <!-- /.col -->
                 <div class="col-md-8">
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Comentarios</h3>
                         </div><!-- /.card-header -->

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Models\Category;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -18,21 +19,30 @@ class StatController extends Controller
      */
     public function index()
     {
-        $now = Carbon::now()->format('Y');
+        $nowYear = Carbon::now()->format('Y');
+        $nowMonth = Carbon::now()->month;
         $donutData = Ticket::selectRaw('user_id, COUNT(*) as count')
             ->groupBy('user_id')
             ->get();
         $lineData = Ticket::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->whereYear('created_at', $now)
+            ->whereYear('created_at', $nowYear)
             ->groupBy('month')
             ->get();
         $barData = Ticket::selectRaw('state_id, MONTH(created_at) as month, COUNT(*) as count')
-            ->whereYear('created_at', $now)
+            ->whereYear('created_at', $nowYear)
             ->groupBy('month')
             ->groupBy('state_id')
             ->get();
-        $users = User::where('role_id','<>',Role::COORDINATOR_ID)->get(['id','name']);
-        return view('stats.index', ['barData' => $barData, 'lineData' => $lineData, 'donutData' => $donutData, 'users' => $users]);
+        $barHorizontalData = Category::selectRaw('categories.name, COUNT(*) as count')
+            ->join('tickets', 'categories.id', '=', 'tickets.category_id')
+            ->whereYear('tickets.created_at', $nowYear) // Especifica la tabla 'tickets'
+            ->whereMonth('tickets.created_at', $nowMonth) // Especifica la tabla 'categories'
+            ->groupBy('categories.name') // Especifica la tabla 'categories'
+            ->orderBy('count','DESC')
+            ->limit(5)
+            ->get();
+        $users = User::where('role_id', '<>', Role::COORDINATOR_ID)->get(['id', 'name']);
+        return view('stats.index', ['barData' => $barData, 'lineData' => $lineData, 'donutData' => $donutData, 'users' => $users, 'barHorizontalData' => $barHorizontalData]);
     }
 
     /**

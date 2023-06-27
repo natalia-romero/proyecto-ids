@@ -13,10 +13,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
-                    <!-- DONUT CHART -->
-                    <div class="card card-danger">
+                    <!-- BAR CHART -->
+                    <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Total de tickets asignados por cada usuario</h3>
+                            <h3 class="card-title">5 categorías más reportadas en el último mes</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -25,14 +25,16 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <canvas id="donutChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            <div class="chart">
+                                <canvas id="barOutChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                     <!-- LINE CHART -->
-                    <div class="card card-info">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Total de tickets por mes</h3>
 
@@ -53,8 +55,26 @@
                     <!-- /.card -->
                 </div>
                 <div class="col">
+                    <!-- DONUT CHART -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Total de tickets asignados por cada usuario</h3>
+
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="donutChart"
+                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
                     <!-- BAR CHART -->
-                    <div class="card card-success">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Total de tickets por cada mes según estado</h3>
 
@@ -85,26 +105,31 @@
     @parent
     <script>
         $(document).ready(function() {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-            //-------------
-            //- LINE CHART -
-            //--------------
-            var lineData = @json($lineData);
-            var months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            for (let i = 0; i < lineData.length; i++) {
-                months[lineData[i]['month'] - 1] = lineData[i]['count'];
+            // Función para generar un color aleatorio en formato hexadecimal
+            function getRandomColor() {
+                return "#" + Math.floor(Math.random() * 16777215).toString(16);
             }
+
+            // Función para obtener el valor de un campo específico de cada elemento en un array
+            function getFieldValues(array, field) {
+                return array.map(element => element[field]);
+            }
+
+            // LINE CHART
+            var lineData = @json($lineData);
+            var months = Array(12).fill(0); // Array inicializado con ceros
+            lineData.forEach(data => {
+                months[data['month'] - 1] = data['count'];
+            });
+            var lineChartLabels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+                'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
             var lineChartData = {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-                    'Octubre', 'Noviembre', 'Diciembre'
-                ],
+                labels: lineChartLabels,
                 datasets: [{
                     label: 'Cantidad de tickets',
                     tension: 0.1,
-                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    backgroundColor: 'rgba(60,141,188,0.1)',
                     borderColor: 'rgba(60,141,188,0.8)',
                     pointColor: '#3b8bba',
                     pointStrokeColor: 'rgba(60,141,188,1)',
@@ -112,48 +137,37 @@
                     pointHighlightStroke: 'rgba(60,141,188,1)',
                     data: months
                 }]
-            }
+            };
             var lineChartOptions = {
                 maintainAspectRatio: false,
                 responsive: true,
                 legend: {
                     display: false
                 }
-            }
-
-
-            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-            var lineChartOptions = $.extend(true, {}, lineChartOptions)
-            var lineChartData = $.extend(true, {}, lineChartData)
-            lineChartData.datasets[0].fill = false;
-            lineChartOptions.datasetFill = false
-
-            var lineChart = new Chart(lineChartCanvas, {
+            };
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d');
+            new Chart(lineChartCanvas, {
                 type: 'line',
                 data: lineChartData,
                 options: lineChartOptions
-            })
+            });
 
-            //-------------
-            //- DONUT CHART -
-            //-------------
-            // Get context with jQuery - using jQuery's .get() method.
+            // DONUT CHART
             var donutData = @json($donutData);
             var users = @json($users);
             var names = ['Sin asignar'];
-            var colors = ["#" + Math.floor(Math.random() * 16777215).toString(16)];
+            var colors = [getRandomColor()];
             var count = [
                 [0, 0]
             ];
             users.forEach(element => {
                 names.push(element['name']);
-                colors.push("#" + Math.floor(Math.random() * 16777215).toString(16));
+                colors.push(getRandomColor());
                 count.push([element['id'], 0]);
             });
             donutData.forEach(data => {
                 var userId = data['user_id'];
                 var dataCount = data['count'];
-
                 if (userId == null) {
                     count[0][1] = dataCount;
                 } else {
@@ -164,93 +178,128 @@
                     });
                 }
             });
-            var showCount = count.map(element => element[1]);
-
-            var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            var showCount = getFieldValues(count, 1);
+            var donutChartCanvas = $('#donutChart').get(0).getContext('2d');
             var donutData = {
                 labels: names,
                 datasets: [{
                     data: showCount,
                     backgroundColor: colors,
                 }]
-            }
+            };
             var donutOptions = {
                 maintainAspectRatio: false,
                 responsive: true,
-            }
-            //Create pie or douhnut chart
-            // You can switch between pie and douhnut using the method below.
+            };
             new Chart(donutChartCanvas, {
                 type: 'doughnut',
                 data: donutData,
                 options: donutOptions
-            })
-            //-------------
-            //- BAR CHART -
-            //-------------
+            });
+
+            // BAR CHART
             var barData = @json($barData);
             var states = {
-                1: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                2: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                3: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                1: Array(12).fill(0),
+                2: Array(12).fill(0),
+                3: Array(12).fill(0)
             };
-            for (let i = 0; i < barData.length; i++) {
-                states[barData[i]['state_id']][barData[i]['month'] - 1] = barData[i]['count'];
-            }
+            barData.forEach(data => {
+                states[data['state_id']][data['month'] - 1] = data['count'];
+            });
+            var colorD1 = getRandomColor();
+            var colorD2 = getRandomColor();
+            var colorD3 = getRandomColor();
+            var barChartLabels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto',
+                'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            ];
             var barChartData = {
-                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-                    'Octubre', 'Noviembre', 'Diciembre'
-                ],
+                labels: barChartLabels,
                 datasets: [{
                         label: 'Abierto',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
+                        backgroundColor: colorD1,
+                        borderColor: colorD1,
                         pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
+                        pointColor: colorD1,
+                        pointStrokeColor: colorD1,
                         pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
+                        pointHighlightStroke: colorD1,
                         data: states[1]
                     },
                     {
                         label: 'Asignado a especialista',
-                        backgroundColor: 'rgba(216, 128, 222, 1)',
-                        borderColor: 'rgba(216, 128, 222, 1)',
+                        backgroundColor: colorD2,
+                        borderColor: colorD2,
                         pointRadius: false,
-                        pointColor: 'rgba(216, 128, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
+                        pointColor: colorD2,
+                        pointStrokeColor: colorD2,
                         pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        pointHighlightStroke: colorD2,
                         data: states[2]
                     },
                     {
                         label: 'Cerrado',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
+                        backgroundColor: colorD3,
+                        borderColor: colorD3,
                         pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
+                        pointColor: colorD3,
+                        pointStrokeColor: colorD3,
                         pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
+                        pointHighlightStroke: colorD3,
                         data: states[3]
-                    },
+                    }
                 ]
-            }
-            var barChartCanvas = $('#barChart').get(0).getContext('2d')
-            var barChartData = $.extend(true, {}, barChartData)
-
+            };
             var barChartOptions = {
                 responsive: true,
                 maintainAspectRatio: false,
                 datasetFill: false
-            }
-
+            };
+            var barChartCanvas = $('#barChart').get(0).getContext('2d');
             new Chart(barChartCanvas, {
                 type: 'bar',
                 data: barChartData,
                 options: barChartOptions
-            })
+            });
 
+            // BAR HORIZONTAL CHART
+
+            var barHorizontalData = @json($barHorizontalData);
+            console.log(barHorizontalData);
+            var barNames = barHorizontalData.map(item => item.name);
+            var barCounts = barHorizontalData.map(item => item.count);
+            var colorD1 = getRandomColor();
+            var colorD2 = getRandomColor();
+            var colorD3 = getRandomColor();
+            var colorD4 = getRandomColor();
+            var colorD5 = getRandomColor();
+            var barChartLabels = barNames;
+            var barChartData = {
+                labels: barChartLabels,
+                datasets: [{
+                        label: 'Cantidad reportada',
+                        backgroundColor: colorD1,
+                        pointRadius: false,
+                        pointHighlightFill: '#fff',
+                        pointHighlightStroke: colorD1,
+                        data: barCounts
+                    },
+                ]
+            };
+            var barChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                datasetFill: false,
+                legend: {
+                    display: false
+                }
+            };
+            var barChartCanvas = $('#barOutChart').get(0).getContext('2d');
+            new Chart(barChartCanvas, {
+                type: 'horizontalBar',
+                data: barChartData,
+                options: barChartOptions
+            });
         });
     </script>
 @stop
