@@ -16,7 +16,7 @@
                     <!-- BAR CHART -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">5 categorías más reportadas en el último mes</h3>
+                            <h3 class="card-title">Categorías más reportadas en el último mes</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -268,6 +268,7 @@
             console.log(barHorizontalData);
             var barNames = barHorizontalData.map(item => item.name);
             var barCounts = barHorizontalData.map(item => item.count);
+            console.log(barCounts);
             var colorD1 = getRandomColor();
             var colorD2 = getRandomColor();
             var colorD3 = getRandomColor();
@@ -277,14 +278,13 @@
             var barChartData = {
                 labels: barChartLabels,
                 datasets: [{
-                        label: 'Cantidad reportada',
-                        backgroundColor: colorD1,
-                        pointRadius: false,
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: colorD1,
-                        data: barCounts
-                    },
-                ]
+                    label: 'Cantidad reportada',
+                    backgroundColor: colorD1,
+                    pointRadius: false,
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: colorD1,
+                    data: barCounts
+                }, ]
             };
             var barChartOptions = {
                 responsive: true,
@@ -292,6 +292,14 @@
                 datasetFill: false,
                 legend: {
                     display: false
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0
+                        }
+                    }]
                 }
             };
             var barChartCanvas = $('#barOutChart').get(0).getContext('2d');
